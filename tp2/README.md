@@ -7,3 +7,9 @@
 ## Objectif
 
 Réaliser un programme en C qui effectue la compression par quantification d'une image.
+
+## Compilation et lancement
+
+```
+clear && make format && make rebuild && ./quantification pgm.jpg
+```

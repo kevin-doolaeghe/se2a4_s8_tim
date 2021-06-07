@@ -9,10 +9,14 @@
 
 void usage() { fprintf(stderr, "Syntaxe : ./quantification <image>\n"); }
 
-void afficher_contenu(char *contenu) {
-    int i;
-    for (i = 0; i < LONGUEUR_MAX; i++) {
-        printf("%c", contenu[i]);
+void afficher_fichier(str_list_t* contenu)
+{
+    int i, j;
+    for (i = 0; i < contenu->alloc; i++) {
+        printf("len: %d\nstr: ", contenu->str_list[i].alloc);
+        for (j = 0; j < contenu->str_list[i].alloc; j++)
+            printf("%#2x ", contenu->str_list[i].data[j] & 0xff);
+        printf("\n\n");
     }
 }
 
@@ -27,13 +31,12 @@ int main(int argc, char* argv[])
     }
 
     FILE* fichier = ouvrir_fichier(argv[1], "rw");
+    str_list_t* contenu = lire_fichier(fichier);
 
-    char contenu[LONGUEUR_MAX];
-    lire_fichier(fichier, contenu);
-
-    afficher_contenu(contenu);
+    afficher_fichier(contenu);
 
     fermer_fichier(fichier);
+    destroy_str_list(contenu);
 
     return 0;
 }

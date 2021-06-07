@@ -6,7 +6,8 @@
 /** Fichiers d'inclusion des bibliotheques **/
 
 #include <stdio.h>
-#include <string.h>
+
+#include "libstrlist.h"
 
 /** Constantes **/
 
@@ -15,7 +16,7 @@
 /** Prototypes **/
 
 FILE* ouvrir_fichier(char* fichier, char* mode);
-void lire_fichier(FILE* fp, char *contenu);
+str_list_t* lire_fichier(FILE* fp);
 void fermer_fichier(FILE* fp);
 
 #endif
