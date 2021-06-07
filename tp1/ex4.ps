@@ -1,0 +1,33 @@
+%!PS-Adobe-2.0
+
+/CARRE {
+    newpath
+    0 0 moveto
+    1 0 rlineto
+    0 -1 rlineto
+    -1 0 rlineto
+    closepath
+    setrgbcolor
+    fill
+    setrgbcolor
+    stroke
+} def
+
+/LIGNE { 4 dict begin
+    /y2 exch def
+    /x2 exch def
+    /y1 exch def
+    /x1 exch def
+    newpath
+    x1 y1 moveto
+    x2 y2 lineto
+    closepath
+    setrgbcolor
+    stroke
+end } def
+
+gsave
+20 20 translate
+20 15 scale
+1 0 1 0 0 1 CARRE
+grestore

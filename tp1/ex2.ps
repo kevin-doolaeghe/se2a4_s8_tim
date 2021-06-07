@@ -1,0 +1,99 @@
+%!PS-Adobe-2.0
+
+% dessin laptop
+
+/EPAISSEUR_ENCADRE 3 def
+/TAILLE_TEXTE 10 def
+
+/RECTANGLE { 4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+    newpath
+    x y moveto
+    w 0 rlineto
+    0 h neg rlineto
+    w neg 0 rlineto
+    closepath
+    setrgbcolor
+    fill
+    setrgbcolor
+    stroke
+end } def
+
+/QUADRILATERE { 8 dict begin
+    /y4 exch def
+    /x4 exch def
+    /y3 exch def
+    /x3 exch def
+    /y2 exch def
+    /x2 exch def
+    /y1 exch def
+    /x1 exch def
+    newpath
+    x1 y1 moveto
+    x2 y2 lineto
+    x3 y3 lineto
+    x4 y4 lineto
+    closepath
+    setrgbcolor
+    fill
+    setrgbcolor
+    stroke
+end } def
+
+/ENCADRE { 4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+    newpath
+    x y moveto
+    w 0 rlineto
+    0 h neg rlineto
+    w neg 0 rlineto
+    closepath
+    setrgbcolor
+    EPAISSEUR_ENCADRE setlinewidth
+    1 setlinejoin
+    stroke
+end } def
+
+/TEXTE { 1 dict begin
+    /str exch def
+    /Times-Roman findfont
+    TAILLE_TEXTE scalefont
+    setfont
+    setrgbcolor
+    str show
+end } def
+
+gsave
+% bordercolor fillcolor origin size
+0 0 0 0.5 0.5 0.5 100 300 150 100 RECTANGLE
+grestore
+
+gsave
+0 0 0 0 0 0 110 290 130 80 RECTANGLE
+grestore
+
+gsave
+0 0 0 0.5 0.5 0.5 100 200 80 130 270 130 250 200 QUADRILATERE
+grestore
+
+gsave
+0 0 0 0.7 0.7 0.7 150 150 148 135 198 135 196 150 QUADRILATERE
+grestore
+
+gsave
+115 275 moveto
+0 1 0 (/usr/$) TEXTE
+140 275 moveto
+0 0 1 (ls) TEXTE
+grestore
+
+gsave
+% color size origin
+0 0 1 70 310 210 190 ENCADRE
+grestore
