@@ -12,6 +12,7 @@
 /** Constantes **/
 
 #define LONGUEUR_MAX 100000
+#define NB_LIGNES 1000
 
 /** Prototypes **/
 
