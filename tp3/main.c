@@ -9,9 +9,6 @@
 
 /** Constantes **/
 
-#define N 10
-#define M 20
-
 /** Variables **/
 
 FILE* src;
@@ -31,63 +28,7 @@ void ex1()
 {
     long i;
     for (i = 0; i < size; i++) {
-        img_data[i] = N * (img_data[i] / N);
-    }
-}
-
-void ex2()
-{
-    int levels[M];
-    int current = 0;
-    int sum = img_data[0];
-    int interval = size / M;
-
-    long i;
-    for (i = 1; i < size; i++) {
-        sum += img_data[i];
-        if (i % interval == 0) {
-            levels[current] = sum / interval;
-            printf("Average level n°%d: %d\n", current, levels[current]);
-            current++;
-            sum = 0;
-        }
-    }
-
-    current = 0;
-    for (i = 0; i < size; i++) {
-        double factor = (double)levels[current] / (double)level;
-        img_data[i] = factor * img_data[i];
-        if (i != 0 && i % interval == 0) {
-            current++;
-        }
-    }
-}
-
-void ex3()
-{
-    int levels[M];
-    int current = 0;
-    int sum = img_data[0];
-    int interval = size / M;
-
-    long i;
-    for (i = 1; i < size; i++) {
-        sum += img_data[i];
-        if (i % interval == 0) {
-            levels[current] = sum / interval;
-            printf("Average level n°%d: %d\n", current, levels[current]);
-            current++;
-            sum = 0;
-        }
-    }
-
-    current = 0;
-    for (i = 0; i < size; i++) {
-        double factor = (double)levels[current] / (double)level;
-        img_data[i] = factor * img_data[i];
-        if (i != 0 && i % interval == 0) {
-            current++;
-        }
+        img_data[i] = img_data[i];
     }
 }
 
@@ -140,7 +81,7 @@ int main(int argc, char* argv[])
         read_ppm_data(src, img_data, ascii);
     }
 
-    ex2();
+    ex1();
 
     /* Open output file */
     if (ascii) {
