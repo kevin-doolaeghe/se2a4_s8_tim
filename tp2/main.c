@@ -63,30 +63,38 @@ void ex2()
     }
 }
 
+/* Pseudo-code (Wikipedia) :
+
+    for each y from top to bottom do
+        for each x from left to right do
+            oldpixel := pixel[x][y]
+            newpixel := find_closest_palette_color(oldpixel)
+            pixel[x][y] := newpixel
+            quant_error := oldpixel - newpixel
+            pixel[x + 1][y    ] := pixel[x + 1][y    ] + quant_error × 7 / 16
+            pixel[x - 1][y + 1] := pixel[x - 1][y + 1] + quant_error × 3 / 16
+            pixel[x    ][y + 1] := pixel[x    ][y + 1] + quant_error × 5 / 16
+            pixel[x + 1][y + 1] := pixel[x + 1][y + 1] + quant_error × 1 / 16
+
+    find_closest_palette_color(oldpixel) = round(oldpixel / 256)
+
+*/
+
 void ex3()
 {
-    int levels[M];
-    int current = 0;
-    int sum = img_data[0];
-    int interval = size / M;
+    int y, x;
+    for (y = 0; y < y_dim; y++) {
+        for (x = 0; x < x_dim; x++) {
+            int delta = (y + 1) * x_dim - x - 1;
+            int old = img_data[delta];
+            int new = old / 256;
+            img_data[delta] = new;
+            int err = old - new;
 
-    long i;
-    for (i = 1; i < size; i++) {
-        sum += img_data[i];
-        if (i % interval == 0) {
-            levels[current] = sum / interval;
-            printf("Average level n°%d: %d\n", current, levels[current]);
-            current++;
-            sum = 0;
-        }
-    }
-
-    current = 0;
-    for (i = 0; i < size; i++) {
-        double factor = (double)levels[current] / (double)level;
-        img_data[i] = factor * img_data[i];
-        if (i != 0 && i % interval == 0) {
-            current++;
+            img_data[delta + 1] += err * 7.0 / 16.0;
+            img_data[delta + x_dim - 1] += err * 3.0 / 16.0;
+            img_data[delta + x_dim] += err * 5.0 / 16.0;
+            img_data[delta + x_dim + 1] += err * 1.0 / 16.0;
         }
     }
 }
@@ -140,7 +148,7 @@ int main(int argc, char* argv[])
         read_ppm_data(src, img_data, ascii);
     }
 
-    ex2();
+    ex3();
 
     /* Open output file */
     if (ascii) {
