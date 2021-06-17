@@ -10,9 +10,23 @@ Réaliser un programme en C qui effectue la compression par quantification d'une
 
 ## Compilation et lancement
 
+Un exemple de lancement du programme est fourni dans le script `run.sh` et peut être démarré avec la commande :
+
 ```
-clear && make format && make rebuild && ./quantification pgm.jpg
+./run.sh
 ```
+
+- - - - -
+
+## Description du travail réalisé
+
+Les exercices réalisés permettent la compression d'une image :
+* par quantification uniforme
+* par quantification adaptative
+* par l'algorithme de Floyd-Steinberg
+
+En lançant l'exemple fourni, on remarque que la compression par quantification uniforme est la moins performante.
+D'un autre côté, l'algorithme de Floyd-Steinberg donne le meilleur résultat.
 
 - - - - -
 
