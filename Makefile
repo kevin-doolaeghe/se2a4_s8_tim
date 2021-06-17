@@ -12,7 +12,7 @@ MAKE = make
 # Constantes du projet
 #
 
-DIRS = libs ex1 ex2
+DIRS = tp2 tp3 tp4
 
 #
 # Cible principale
@@ -35,7 +35,6 @@ debug: all
 #
 
 clean: $(patsubst %, _clean_%, $(DIRS))
-	rm -f images/ex*
 
 $(patsubst %,_clean_%,$(DIRS)):
 	cd $(patsubst _clean_%,%,$@) && $(MAKE) clean

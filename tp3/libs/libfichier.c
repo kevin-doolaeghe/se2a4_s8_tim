@@ -6,7 +6,7 @@
 
 FILE* ouvrir_fichier(char* fichier, char* mode)
 {
-    FILE* fp;
+    FILE* fp = NULL;
     fp = fopen(fichier, mode);
 
     if (fp == NULL) {

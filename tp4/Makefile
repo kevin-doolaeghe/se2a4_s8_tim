@@ -35,7 +35,6 @@ debug: all
 #
 
 clean: $(patsubst %, _clean_%, $(DIRS))
-	rm -f images/ex*
 
 $(patsubst %,_clean_%,$(DIRS)):
 	cd $(patsubst _clean_%,%,$@) && $(MAKE) clean

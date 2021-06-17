@@ -9,10 +9,12 @@
 
 /** Constantes **/
 
+#define N 10
+
 /** Variables **/
 
-FILE* src;
-FILE* dst;
+FILE* src = NULL;
+FILE* dst = NULL;
 int pnm_type;
 
 int* img_data;
@@ -24,11 +26,11 @@ int x_dim, y_dim, level, ascii;
 
 void usage() { fprintf(stderr, "Syntaxe : ./quantification <src> <dst>\n"); }
 
-void ex1()
+void traitement()
 {
     long i;
     for (i = 0; i < size; i++) {
-        img_data[i] = img_data[i];
+        img_data[i] = N * (img_data[i] / N);
     }
 }
 
@@ -80,8 +82,10 @@ int main(int argc, char* argv[])
     } else if ((pnm_type == PPM_ASCII) || (pnm_type == PPM_BINARY)) {
         read_ppm_data(src, img_data, ascii);
     }
+    printf("size: %lu\n", size);
 
-    ex1();
+    /* Edit the image */
+    traitement();
 
     /* Open output file */
     if (ascii) {
@@ -100,8 +104,11 @@ int main(int argc, char* argv[])
     if (pnm_type == PGM_ASCII || pnm_type == PGM_BINARY || pnm_type == PPM_ASCII || pnm_type == PPM_BINARY)
         free(img_data);
 
-    /* Close files */
-    fermer_fichier(src);
+    /* Close source file */
+    // fermer_fichier(src);
+
+    /* Close destination file */
+    // fermer_fichier(dst);
 
     return 0;
 }

@@ -9,13 +9,12 @@
 
 /** Constantes **/
 
-#define N 10
 #define M 20
 
 /** Variables **/
 
-FILE* src;
-FILE* dst;
+FILE* src = NULL;
+FILE* dst = NULL;
 int pnm_type;
 
 int* img_data;
@@ -27,15 +26,7 @@ int x_dim, y_dim, level, ascii;
 
 void usage() { fprintf(stderr, "Syntaxe : ./quantification <src> <dst>\n"); }
 
-void ex1()
-{
-    long i;
-    for (i = 0; i < size; i++) {
-        img_data[i] = N * (img_data[i] / N);
-    }
-}
-
-void ex2()
+void traitement()
 {
     int levels[M];
     int current = 0;
@@ -47,7 +38,7 @@ void ex2()
         sum += img_data[i];
         if (i % interval == 0) {
             levels[current] = sum / interval;
-            printf("Average level n°%d: %d\n", current, levels[current]);
+            // printf("Average level n°%d: %d\n", current, levels[current]);
             current++;
             sum = 0;
         }
@@ -59,42 +50,6 @@ void ex2()
         img_data[i] = factor * img_data[i];
         if (i != 0 && i % interval == 0) {
             current++;
-        }
-    }
-}
-
-/* Pseudo-code (Wikipedia) :
-
-    for each y from top to bottom do
-        for each x from left to right do
-            oldpixel := pixel[x][y]
-            newpixel := find_closest_palette_color(oldpixel)
-            pixel[x][y] := newpixel
-            quant_error := oldpixel - newpixel
-            pixel[x + 1][y    ] := pixel[x + 1][y    ] + quant_error × 7 / 16
-            pixel[x - 1][y + 1] := pixel[x - 1][y + 1] + quant_error × 3 / 16
-            pixel[x    ][y + 1] := pixel[x    ][y + 1] + quant_error × 5 / 16
-            pixel[x + 1][y + 1] := pixel[x + 1][y + 1] + quant_error × 1 / 16
-
-    find_closest_palette_color(oldpixel) = round(oldpixel / 256)
-
-*/
-
-void ex3()
-{
-    int y, x;
-    for (y = 0; y < y_dim; y++) {
-        for (x = 0; x < x_dim; x++) {
-            int delta = (y + 1) * x_dim - x - 1;
-            int old = img_data[delta];
-            int new = old / 256;
-            img_data[delta] = new;
-            int err = old - new;
-
-            img_data[delta + 1] += err * 7.0 / 16.0;
-            img_data[delta + x_dim - 1] += err * 3.0 / 16.0;
-            img_data[delta + x_dim] += err * 5.0 / 16.0;
-            img_data[delta + x_dim + 1] += err * 1.0 / 16.0;
         }
     }
 }
@@ -147,8 +102,10 @@ int main(int argc, char* argv[])
     } else if ((pnm_type == PPM_ASCII) || (pnm_type == PPM_BINARY)) {
         read_ppm_data(src, img_data, ascii);
     }
+    printf("size: %lu\n", size);
 
-    ex3();
+    /* Edit the image */
+    traitement();
 
     /* Open output file */
     if (ascii) {
@@ -167,8 +124,11 @@ int main(int argc, char* argv[])
     if (pnm_type == PGM_ASCII || pnm_type == PGM_BINARY || pnm_type == PPM_ASCII || pnm_type == PPM_BINARY)
         free(img_data);
 
-    /* Close files */
-    fermer_fichier(src);
+    /* Close source file */
+    // fermer_fichier(src);
+
+    /* Close destination file */
+    // fermer_fichier(dst);
 
     return 0;
 }

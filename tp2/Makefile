@@ -1,25 +1,44 @@
 #
-# Makefile pour l'application de quantification
+# Constantes pour la compilation
 #
 
-SOURCES = $(wildcard *.c)
-OBJETS = $(SOURCES:.c=.o)
-BIBLIOTHEQUES = -lm
-CFLAGS += -std=c99 -D_DEFAULT_SOURCE
-CIBLE = quantification
+CC = gcc
+LD = gcc
+AR = ar
+export CFLAGS += -g -Wall
+MAKE = make
 
 #
-# Nom de la cible principale
+# Constantes du projet
 #
 
-all: $(CIBLE)
+DIRS = libs ex1 ex2 ex3
+
+#
+# Cible principale
+#
+
+all: $(patsubst %, _dir_%, $(DIRS))
+
+$(patsubst %,_dir_%,$(DIRS)):
+	cd $(patsubst _dir_%,%,$@) && $(MAKE)
+
+#
+# Cible de deverminage
+#
+
+debug: CFLAGS += -DDEVERMINE -DDEBUG
+debug: all
 
 #
 # Cible de nettoyage
 #
 
-clean: 
-	rm -f core *.o $(CIBLE)
+clean: $(patsubst %, _clean_%, $(DIRS))
+	rm -f images/ex*
+
+$(patsubst %,_clean_%,$(DIRS)):
+	cd $(patsubst _clean_%,%,$@) && $(MAKE) clean
 
 #
 # Cible de recompilation
@@ -28,15 +47,10 @@ clean:
 rebuild: clean all
 
 #
-# Dependances pour l'executable
-#
-
-$(CIBLE): $(OBJETS)
-	$(CC) -o $@ $^ $(BIBLIOTHEQUES)
-
-#
 # Formatage
 #
 
-format :
-	clang-format -i -style=WebKit *.c *.h
+format: $(patsubst %, _format_%, $(DIRS))
+
+$(patsubst %,_format_%,$(DIRS)):
+	cd $(patsubst _format_%,%,$@) && $(MAKE) format
